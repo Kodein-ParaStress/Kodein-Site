@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kodein ParaStress</title>
+    <link rel="icon" href="favicon.ico" sizes="any">
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&amp;family=Orbitron:wght@400;700;900&amp;display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
+    <style>
+        :root {
+            --primary: #00f3ff;
+            --secondary: #bc13fe;
+            --bg: #050508;
+            --text: #ffffff;
+            --gold: #ffd700;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Share Tech Mono', monospace;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle at 50% 50%, #1a1a2e 0%, #000 100%);
+        }
+
+        #stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-image:
+                radial-gradient(2px 2px at 20% 30%, rgba(255, 255, 255, 0.5) 50%, transparent 52%),
+                radial-gradient(1.5px 1.5px at 70% 20%, rgba(0, 243, 255, 0.55) 50%, transparent 52%),
+                radial-gradient(1.5px 1.5px at 35% 75%, rgba(188, 19, 254, 0.5) 50%, transparent 52%),
+                radial-gradient(2px 2px at 85% 65%, rgba(255, 255, 255, 0.45) 50%, transparent 52%);
+            background-size: 320px 320px, 360px 360px, 420px 420px, 520px 520px;
+            animation: stars-move 34s linear infinite;
+        }
+
+        @keyframes stars-move {
+            from { background-position: 0 0, 0 0, 0 0, 0 0; }
+            to { background-position: 280px 180px, -220px 120px, 200px -160px, -180px -200px; }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4rem;
+            font-weight: 900;
+            background: linear-gradient(to right, #fff, var(--primary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 30px rgba(0, 243, 255, 0.5);
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #aaa;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+        }
+
+        .pricing-container {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            perspective: 1000px;
+            margin-bottom: 60px;
+            z-index: 10;
+        }
+
+
+
+        .card {
+            background: rgba(20, 20, 25, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px 20px;
+            width: 280px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            transform: scale(0.95);
+            will-change: transform, box-shadow;
+        }
+
+        .side-plan {
+            width: 280px;
+        }
+
+        .side-plan:hover {
+            transform: translateY(-8px) scale(0.98);
+            border-color: rgba(255, 255, 255, 0.22);
+            box-shadow: 0 22px 42px rgba(0, 0, 0, 0.36);
+        }
+
+        .center-plan {
+            width: 320px;
+            padding: 50px 30px;
+            background: linear-gradient(155deg, rgba(255, 215, 0, 0.1), rgba(16, 16, 22, 0.92));
+            transform: scale(1.13);
+            z-index: 5;
+            border: 1px solid rgba(255, 215, 0, 0.35);
+            box-shadow: 0 28px 70px rgba(0, 0, 0, 0.5), 0 0 32px rgba(255, 215, 0, 0.2);
+        }
+
+        .center-plan::before {
+            content: "";
+            position: absolute;
+            inset: -1px;
+            border-radius: 21px;
+            background: linear-gradient(130deg, rgba(255, 215, 0, 0.45), rgba(255, 255, 255, 0.04), rgba(255, 215, 0, 0.45));
+            z-index: -2;
+            opacity: 0.9;
+        }
+
+        .center-plan::after {
+            content: "";
+            position: absolute;
+            top: 12%;
+            left: -18%;
+            width: 140%;
+            height: 72%;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.2) 0%, rgba(255, 215, 0, 0) 72%);
+            filter: blur(18px);
+            z-index: -1;
+            animation: aura 4.8s ease-in-out infinite;
+        }
+
+        .center-plan:hover {
+            transform: translateY(-10px) scale(1.16);
+            box-shadow: 0 34px 82px rgba(0, 0, 0, 0.58), 0 0 42px rgba(255, 215, 0, 0.34);
+        }
+
+        @keyframes aura {
+            0%, 100% { opacity: 0.55; transform: scale(1); }
+            50% { opacity: 0.92; transform: scale(1.04); }
+        }
+
+        .card-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 15px;
+        }
+
+        .card-price {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
+        }
+        .card.popular .card-price { color: var(--gold); text-shadow: 0 0 16px rgba(255, 215, 0, 0.6); }
+        .card.lifetime .card-price { color: var(--gold); text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
+        .best-badge {
+            position: absolute;
+            top: -1px;
+            right: 14px;
+            padding: 7px 14px;
+            border-radius: 0 0 10px 10px;
+            font-size: 0.72rem;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            letter-spacing: 0.6px;
+            color: #1d1600;
+            background: linear-gradient(180deg, #ffe796, #ffd700);
+            box-shadow: 0 10px 22px rgba(255, 215, 0, 0.35);
+            text-transform: uppercase;
+        }
+
+        .card-features {
+            list-style: none;
+            text-align: left;
+            margin-bottom: 30px;
+            font-size: 0.9rem;
+            color: #ccc;
+        }
+        .card-features li {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+        .card-features li::before {
+            content: "✓";
+            color: var(--primary);
+            position: absolute;
+            left: 0;
+        }
+
+        .btn-buy {
+            display: inline-block;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            transition: 0.3s;
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #fff;
+            background: transparent;
+        }
+        .btn-buy:hover {
+            background: #fff;
+            color: #000;
+            box-shadow: 0 0 20px rgba(255,255,255,0.4);
+        }
+        .center-plan .btn-buy {
+            background: linear-gradient(120deg, #ffe38b, #ffd700);
+            color: #1a1300;
+            border-color: rgba(255, 215, 0, 0.75);
+            box-shadow: 0 12px 30px rgba(255, 215, 0, 0.28);
+        }
+        .center-plan .btn-buy:hover {
+            background: linear-gradient(120deg, #fff0b8, #ffde4f);
+            color: #140f00;
+            transform: translateY(-2px);
+        }
+
+        /* --- INFO SECTION --- */
+        .info-section {
+            max-width: 900px;
+            width: 90%;
+            background: rgba(10, 10, 15, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 50px;
+        }
+
+        .info-section::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--gold));
+        }
+
+        .info-col h3 {
+            font-family: 'Orbitron', sans-serif;
+            color: #fff;
+            margin-bottom: 25px;
+            font-size: 1.4rem;
+            border-bottom: 2px solid rgba(255,255,255,0.05);
+            padding-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .info-list {
+            list-style: none;
+        }
+        .info-list li {
+            margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: 40px 1fr;
+            align-items: start;
+            gap: 15px;
+        }
+        
+        .icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(0, 243, 255, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 1.2rem;
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.1);
+        }
+
+        .info-content {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        
+        .info-title {
+            font-weight: bold;
+            color: #fff;
+            font-size: 1rem;
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        .info-desc {
+            font-size: 0.85rem;
+            color: #aaa;
+            line-height: 1.4;
+        }
+
+        .category-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 6px;
+        }
+        
+        .cat-tag {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            color: #ddd;
+        }
+
+        .vouch-badge {
+            background: rgba(0, 255, 0, 0.1);
+            border: 1px solid #00ff00;
+            color: #00ff00;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        /* --- FLOATING ELEMENTS --- */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -1;
+            animation: float-orb 10s infinite ease-in-out;
+        }
+        .orb-1 { width: 300px; height: 300px; background: rgba(0, 243, 255, 0.15); top: 10%; left: 10%; }
+        .orb-2 { width: 400px; height: 400px; background: rgba(188, 19, 254, 0.15); bottom: 10%; right: 10%; }
+
+        @keyframes float-orb {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(30px, -30px); }
+        }
+
+        .back-link {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            color: #fff;
+            text-decoration: none;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            opacity: 0.7;
+            transition: 0.3s;
+            z-index: 100;
+        }
+        .back-link:hover { opacity: 1; color: var(--primary); }
+
+        @media (max-width: 950px) {
+            .pricing-container { flex-direction: column; gap: 50px; }
+            .card { transform: scale(1); width: min(340px, 92vw); }
+            .center-plan { transform: scale(1.03); order: -1; }
+            .side-plan:hover, .center-plan:hover { transform: translateY(-6px) scale(1.03); }
+            .info-section { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 768px) {
+            body {
+                justify-content: flex-start;
+                padding: 80px 12px 24px;
+            }
+            .header {
+                margin-bottom: 26px;
+            }
+            .title {
+                font-size: clamp(2rem, 10vw, 3rem);
+                line-height: 1.05;
+            }
+            .subtitle {
+                font-size: 0.95rem;
+                letter-spacing: 1px;
+            }
+            .pricing-container {
+                gap: 24px;
+                margin-bottom: 28px;
+            }
+            .card {
+                width: 100%;
+                max-width: 420px;
+                padding: 24px 16px;
+            }
+            .center-plan {
+                width: 100%;
+                max-width: 420px;
+                padding: 32px 18px;
+                transform: scale(1);
+            }
+            .side-plan:hover, .center-plan:hover {
+                transform: translateY(-4px) scale(1);
+            }
+            .btn-buy {
+                width: 100%;
+                text-align: center;
+            }
+            .info-section {
+                width: 100%;
+                padding: 20px 14px;
+                gap: 20px;
+                border-radius: 14px;
+            }
+            .info-list li {
+                grid-template-columns: 34px 1fr;
+                gap: 10px;
+            }
+            .icon {
+                width: 34px;
+                height: 34px;
+                font-size: 1rem;
+            }
+            .back-link {
+                top: 12px;
+                left: 12px;
+                font-size: 0.78rem;
+                padding: 6px 8px;
+                border-radius: 8px;
+                background: rgba(0,0,0,0.45);
+                border: 1px solid rgba(255,255,255,0.15);
+                opacity: 1;
+            }
+            .orb-1, .orb-2 {
+                filter: blur(60px);
+            }
+        }
+        @media (max-width: 480px) {
+            .card-features {
+                font-size: 0.84rem;
+            }
+            .card-price {
+                font-size: 2.15rem;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="stars"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <a href="index.html" class="back-link">< BACK TO HOME</a>
+
+    <div class="header">
+        <div class="title">Get Kodein API</div>
+        <div class="subtitle">CHOOSE YOUR PLAN • GET POWER</div>
+    </div>
+
+    <div class="pricing-container">
+        <!-- Weekly -->
+        <div class="card side-plan" data-tilt data-tilt-max="10" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.2">
+            <div class="card-title">API BASIC</div>
+            <div class="card-price">60€</div>
+            <ul class="card-features">
+                <li>Access for Lifetime</li>
+                <li>60s attack time</li>
+                <li><strong>15s Cooldown</strong></li>
+                <li>Without VIP</li>
+                <li>1 concurrent</li>
+                <li>20€ Monthly</li>
+            </ul>
+            <a href="https://discord.gg/dDsz47K6kM" target="_blank" class="btn-buy">PURCHASE</a>
+        </div>
+
+        <!-- Lifetime (CENTERED - BEST VALUE) -->
+        <div class="card popular lifetime center-plan" data-tilt data-tilt-max="10" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.4">
+            <div class="best-badge">Best Value</div>
+            <div class="card-title" style="color:var(--gold)">ADVANCED</div>
+            <div class="price-wrap">
+                <div class="card-price">120€</div>
+            </div>
+            <ul class="card-features">
+                <li><strong>Lifetime Access API</strong></li>
+                <li><strong>Free Updates</strong></li>
+                <li>350s Attack Time</li>
+                <li>0s Cooldown</li>
+                <li>With VIP</li>
+                <li>Full Botnet Access</li>
+                <li>70€ Monthly</li>
+            </ul>
+            <a href="https://discord.gg/dDsz47K6kM" target="_blank" class="btn-buy">PURCHASE</a>
+        </div>
+
+        <!-- Monthly -->
+        <div class="card side-plan" data-tilt data-tilt-max="10" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.3">
+            <div class="card-title">API MEDIUM</div>
+            <div class="card-price">90€</div>
+            <ul class="card-features">
+                <li>Access for Lifetime</li>
+                <li>120s Attack Time</li>
+                <li><strong>5s Cooldown</strong></li>
+                <li>With VIP</li>
+                <li>2 Concurrent</li>
+                <li>40€ Monthly</li>
+            </ul>
+            <a href="https://discord.gg/dDsz47K6kM" target="_blank" class="btn-buy">PURCHASE</a>
+        </div>
+    </div>
+
+    <div class="info-section">
+        <div class="info-col">
+            <h3>🛡️ WHY KODEIN ?</h3>
+            <ul class="info-list">
+                <li>
+                    <div class="icon">★</div> 
+                    <div class="info-content">
+                        <div class="info-title">Our Botnet</div>
+                        <div class="info-desc">Access our complete arsenal of Attack methods.</div>
+                    </div>
+                </li>
+                <li>
+                    <div class="icon">↻</div> 
+                    <div class="info-content">
+                        <div class="info-title">Monthly Updates</div>
+                        <div class="info-desc">Guaranteed fresh methods & always new bots added.</div>
+                    </div>
+                </li>
+                <li>
+                    <div class="icon">♥</div> 
+                    <div class="info-content">
+                        <div class="info-title">Active Customers</div>
+                        <div class="info-desc">Join a growing community of elite users currently using Kodein.</div>
+                    </div>
+                </li>
+                <li>
+                    <div class="icon">✔</div> 
+                    <div class="info-content">
+                        <div class="info-title">100% Legit</div>
+                        <div class="info-desc">Rated 5/5 stars By all customers + You can talk with customers on our Discord.</div>
+                    </div>
+                </li>
+                <li>
+                    <div class="icon">�</div> 
+                    <div class="info-content">
+                        <div class="info-title">New Update v3.0</div>
+                        <div class="info-desc">Exceptional update: <strong>+20 New Methods</strong> added & New C2 system using SSH.</div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="info-col">
+            <h3>🤝 PREMIUM SUPPORT</h3>
+            <ul class="info-list">
+                <li>
+                    <div class="icon">📞</div> 
+                    <div class="info-content">
+                        <div class="info-title">Live Setup Call</div>
+                        <div class="info-desc">We help you install everything via screen share if needed.</div>
+                    </div>
+                </li>
+                <li>
+                    <div class="icon">🎥</div> 
+                    <div class="info-content">
+                        <div class="info-title">Video Tutorials</div>
+                        <div class="info-desc">Step-by-step guides included for every single Methods of crashing.</div>
+                    </div>
+                </li>
+                <li>
+                    <div class="icon">💬</div> 
+                    <div class="info-content">
+                        <div class="info-title">Exclusive Discord Access</div>
+                        <div class="info-desc">Unlock <strong>10 Private Channels</strong> only for customers.</div>
+                    </div>
+                </li>
+                <li>
+                    <div class="icon">🔑</div> 
+                    <div class="info-content">
+                        <div class="info-title">Private Access</div>
+                        <div class="info-desc">You get a <strong>Unique Private Key</strong> Linked to your device to access the panel securely.</div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        VanillaTilt.init(document.querySelectorAll(".card"), {
+            max: 10,
+            speed: 400,
+            glare: true,
+            "max-glare": 0.2
+        });
+    </script>
+</body>
+
+
+</html>
