@@ -1,0 +1,65 @@
+/* Custom Cursor */
+body {
+    cursor: none; /* Hide default cursor */
+}
+
+#cyber-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 30px;
+    height: 30px;
+    border: 2px solid var(--secondary-color);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 9999;
+    transition: width 0.2s, height 0.2s, border-color 0.2s;
+    box-shadow: 0 0 10px var(--secondary-color);
+    mix-blend-mode: exclusion;
+}
+
+#cyber-cursor::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 4px;
+    height: 4px;
+    background: var(--primary-color);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Hover state for cursor */
+body.hovering #cyber-cursor {
+    width: 50px;
+    height: 50px;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 20px var(--primary-color);
+    background: rgba(123, 44, 191, 0.1);
+}
+
+/* Click Particles */
+.click-particle {
+    position: fixed;
+    pointer-events: none;
+    background: white;
+    border-radius: 50%;
+    z-index: 9998;
+    animation: particle-fade 0.8s forwards;
+}
+
+@keyframes particle-fade {
+    0% { transform: translate(0, 0) scale(1); opacity: 1; }
+    100% { transform: translate(var(--mx), var(--my)) scale(0); opacity: 0; }
+}
+
+@media (hover: none), (pointer: coarse) {
+    body {
+        cursor: auto;
+    }
+    #cyber-cursor {
+        display: none;
+    }
+}

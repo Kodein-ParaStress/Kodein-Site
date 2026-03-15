@@ -1,0 +1,1120 @@
+:root {
+    --bg-color: #030005;
+    --text-color: #e0e0ff;
+    --primary-color: #7b2cbf; /* Deep Purple */
+    --secondary-color: #3a86ff; /* Blue */
+    --accent-color: #ff0090; /* Pink/Magenta for contrast */
+    --glow-color: rgba(123, 44, 191, 0.7);
+    --dark-overlay: rgba(5, 0, 10, 0.8);
+    --grid-line: rgba(58, 134, 255, 0.1);
+    --font-heading: 'Orbitron', sans-serif;
+    --font-body: 'Share Tech Mono', monospace;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-body);
+    overflow-x: hidden;
+    position: relative;
+    background: #000;
+}
+
+/* Dynamic Background Overlay for smooth transition */
+.background-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Gradient: Top is dark space (transparent), Bottom is Blue Sky */
+    background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(10, 5, 40, 0.0) 60%, rgba(40, 20, 100, 0.6) 100%);
+    z-index: -3;
+    pointer-events: none;
+    opacity: 0; /* Starts invisible (Space), increases as we scroll down */
+    transition: opacity 0.1s linear;
+}
+
+/* Stars Background */
+.stars-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    overflow: hidden;
+}
+
+.star {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    animation: twinkle var(--duration) infinite ease-in-out;
+    opacity: 0;
+}
+
+@keyframes twinkle {
+    0% { opacity: 0; transform: scale(0.5); }
+    50% { opacity: var(--opacity); transform: scale(1); }
+    100% { opacity: 0; transform: scale(0.5); }
+}
+
+.shooting-star {
+    position: absolute;
+    width: 140px;
+    height: 3px;
+    background: linear-gradient(90deg, rgba(255,255,255,1), rgba(180,220,255,0.8), transparent);
+    top: var(--top);
+    left: -100px;
+    animation: shoot 2.4s ease-out;
+    animation-delay: var(--delay);
+    transform: rotate(45deg);
+    opacity: 0;
+    z-index: -1;
+    filter: drop-shadow(0 0 8px rgba(255,255,255,0.9));
+}
+
+@keyframes shoot {
+    0% { left: -100px; opacity: 1; }
+    20% { left: 120%; opacity: 0; }
+    100% { left: 120%; opacity: 0; }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #000;
+}
+::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--secondary-color);
+}
+
+/* NEON BORDER ANIMATION - DOUBLE OPPOSITE */
+.neon-border {
+    position: relative;
+    overflow: hidden;
+    /* Transparent border to maintain spacing */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(10, 10, 10, 0.6); /* Slightly darker background */
+}
+
+/* Define colors for each category */
+.malware { --card-color: #ffaa00; --card-shadow: rgba(255, 170, 0, 0.4); } /* Orange */
+.panel { --card-color: #0088ff; --card-shadow: rgba(0, 136, 255, 0.4); }   /* Blue */
+.scam { --card-color: #ff0000; --card-shadow: rgba(255, 0, 0, 0.4); }     /* Red */
+.network { --card-color: #00ff00; --card-shadow: rgba(0, 255, 0, 0.4); }  /* Green */
+.systeme { --card-color: #ffd700; --card-shadow: rgba(255, 215, 0, 0.4); }/* Gold */
+.video-frame { --card-color: #7b2cbf; --card-shadow: rgba(123, 44, 191, 0.4); } /* Viobleu for video */
+
+/* Text colors updates */
+.malware .card-header i, .malware .card-header h3 { color: var(--card-color); }
+.panel .card-header i, .panel .card-header h3 { color: var(--card-color); }
+.scam .card-header i, .scam .card-header h3 { color: var(--card-color); }
+.network .card-header i, .network .card-header h3 { color: var(--card-color); }
+.systeme .card-header i, .systeme .card-header h3 { color: var(--card-color); }
+
+/* List bullets */
+.malware .feature-list li::before { color: var(--card-color); }
+.panel .feature-list li::before { color: var(--card-color); }
+.scam .feature-list li::before { color: var(--card-color); }
+.network .feature-list li::before { color: var(--card-color); }
+.systeme .feature-list li::before { color: var(--card-color); }
+
+/* Corner Brackets (Static) - REMOVED */
+.neon-border::before, .neon-border::after {
+    content: none;
+}
+
+/* Extra corners for complete bracket look - REMOVED */
+.card-header::before, .card-header::after {
+    content: none;
+}
+
+/* Top Right Static - REMOVED */
+.border-glow-1 {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: none;
+    z-index: 1;
+}
+
+/* Bottom Left Static - REMOVED */
+.border-glow-2 {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: none;
+    z-index: 1;
+}
+
+/* ANIMATED LINES - DOUBLE OPPOSITE */
+/* We need new elements or pseudo-elements on the glow divs */
+.border-glow-1::before, .border-glow-1::after,
+.border-glow-2::before, .border-glow-2::after {
+    /* Reset from previous animation */
+    content: none; 
+}
+
+/* We need to inject new spans or divs for the rotating lines if we want complex pathing. */
+/* However, simpler approach: Clip-path animation or conic gradient */
+/* Let's use a moving gradient background on the border? */
+
+/* Re-implementing "Turn around the rectangle" with double opposite heads */
+/* We will use a pseudo-element on the card itself for the animation */
+
+.neon-border > .anim-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* We need to add this .anim-line div in HTML or use existing structure. */
+/* Existing structure has .border-glow-1 and .border-glow-2. I can re-purpose them for animation lines. */
+
+.border-glow-1, .border-glow-2 {
+    /* Reset static corner styles I just wrote above - wait, I need both? */
+    /* Let's use .neon-border::before/after for corners TL/BR */
+    /* And create new pseudo elements on .card-header (if visible) or just add 2 new divs in HTML */
+    /* I already have .border-glow-1 and .border-glow-2 in HTML. I will use them for ANIMATION. */
+    /* I will use .neon-border::before/after and .feature-list::before/after (hacky) or just box-shadow for corners? */
+    /* Let's go with the user request "animation qui tourne" priority. */
+    
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none; /* Reset */
+    overflow: hidden;
+}
+
+/* Line 1: Clockwise */
+.border-glow-1::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 2px solid transparent;
+    border-top-color: var(--card-color);
+    border-right-color: var(--card-color);
+    border-radius: 2px;
+    animation: border-cw 4s linear infinite;
+    /* This is a simple rotation which works for squares, but for rectangles it looks weird (cuts corners). */
+    /* Better approach: 4-stage translation */
+}
+
+/* Let's use the 4-line approach again but doubled */
+
+.border-glow-1::before { /* Top Line moving Right */
+    content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px;
+    background: var(--card-color);
+    box-shadow: 0 0 10px var(--card-color);
+    transform: translateX(-100%);
+    will-change: transform;
+    animation: anim-top 2s linear infinite;
+}
+.border-glow-1::after { /* Bottom Line moving Left (Opposite) */
+    content: ''; position: absolute; bottom: 0; right: 0; width: 100%; height: 2px;
+    background: var(--card-color);
+    box-shadow: 0 0 10px var(--card-color);
+    transform: translateX(100%);
+    will-change: transform;
+    animation: anim-bottom 2s linear infinite;
+}
+
+.border-glow-2::before { /* Right Line moving Down */
+    content: ''; position: absolute; top: 0; right: 0; width: 2px; height: 100%;
+    background: var(--card-color);
+    box-shadow: 0 0 10px var(--card-color);
+    transform: translateY(-100%);
+    will-change: transform;
+    animation: anim-right 2s linear infinite;
+    animation-delay: 0.5s;
+}
+.border-glow-2::after { /* Left Line moving Up (Opposite) */
+    content: ''; position: absolute; bottom: 0; left: 0; width: 2px; height: 100%;
+    background: var(--card-color);
+    box-shadow: 0 0 10px var(--card-color);
+    transform: translateY(100%);
+    will-change: transform;
+    animation: anim-left 2s linear infinite;
+    animation-delay: 0.5s;
+}
+
+/* Keyframes using transform for GPU acceleration */
+@keyframes anim-top {
+    0% { transform: translateX(-100%); }
+    50%, 100% { transform: translateX(100%); }
+}
+@keyframes anim-bottom {
+    0% { transform: translateX(100%); }
+    50%, 100% { transform: translateX(-100%); }
+}
+@keyframes anim-right {
+    0% { transform: translateY(-100%); }
+    50%, 100% { transform: translateY(100%); }
+}
+@keyframes anim-left {
+    0% { transform: translateY(100%); }
+    50%, 100% { transform: translateY(-100%); }
+}
+
+/* To achieve "Opposite" effect where they meet and part? */
+/* Current setup: 
+   Top moves Right. Bottom moves Left. (Opposite horizontal)
+   Right moves Down. Left moves Up. (Opposite vertical)
+   This creates a "spinning" effect where two heads chase each other if timed right.
+   Or if timed differently, they cross.
+   User said "pas qu'un seul qui tourne... il faut un autre oposé".
+   With this setup (Top/Bottom simultaneous, Right/Left simultaneous with delay), 
+   we get two "heads" rotating around the box 180 degrees apart.
+   Perfect.
+*/
+
+/* Corners Brackets - Using clip-path on the container itself or a pseudo element? */
+.feature-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 1px solid var(--card-color);
+    /* Clip path to show only corners */
+    clip-path: polygon(
+        0 10px, 0 0, 10px 0, 
+        calc(100% - 10px) 0, 100% 0, 100% 10px,
+        100% calc(100% - 10px), 100% 100%, calc(100% - 10px) 100%,
+        10px 100%, 0 100%, 0 calc(100% - 10px)
+    );
+    /* Actually clip-path cuts the INSIDE. We want to KEEP the corners. */
+    /* Polygon logic: Start TL down, TL corner, TL right... jump to TR left... */
+    /* Easier: use a mask or just linear gradients for corners. */
+    background: 
+        linear-gradient(to right, var(--card-color) 2px, transparent 2px) 0 0,
+        linear-gradient(to bottom, var(--card-color) 2px, transparent 2px) 0 0,
+        linear-gradient(to left, var(--card-color) 2px, transparent 2px) 100% 0,
+        linear-gradient(to bottom, var(--card-color) 2px, transparent 2px) 100% 0,
+        linear-gradient(to right, var(--card-color) 2px, transparent 2px) 0 100%,
+        linear-gradient(to top, var(--card-color) 2px, transparent 2px) 0 100%,
+        linear-gradient(to left, var(--card-color) 2px, transparent 2px) 100% 100%,
+        linear-gradient(to top, var(--card-color) 2px, transparent 2px) 100% 100%;
+    background-repeat: no-repeat;
+    background-size: 10px 10px;
+    pointer-events: none;
+    z-index: 5;
+    border-radius: 14px;
+}
+
+/* HUD OVERLAY */
+.hud-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 900;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.hud-corner {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    color: var(--secondary-color);
+    font-family: var(--font-body);
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    opacity: 0.7;
+}
+
+.hud-corner.top-left { top: 20px; left: 20px; border-left: 2px solid var(--primary-color); padding-left: 10px; }
+.hud-corner.top-right { top: 20px; right: 20px; align-items: flex-end; border-right: 2px solid var(--primary-color); padding-right: 10px; }
+.hud-corner.bottom-left { bottom: 20px; left: 20px; border-left: 2px solid var(--primary-color); padding-left: 10px; justify-content: flex-end; }
+.hud-corner.bottom-right { bottom: 20px; right: 20px; align-items: flex-end; border-right: 2px solid var(--primary-color); padding-right: 10px; justify-content: flex-end; }
+
+.hud-bar {
+    width: 100px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--secondary-color), transparent);
+}
+
+.top-right .hud-bar, .bottom-right .hud-bar {
+    background: linear-gradient(-90deg, var(--secondary-color), transparent);
+}
+
+/* Black Hole Canvas */
+#blackhole-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2; /* Behind everything */
+    background: #000; /* Deep space black */
+}
+
+/* Cyber Floor 3D (No distortion now) */
+.cyber-floor {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 35vh; 
+    perspective: 1000px;
+    z-index: -1;
+    pointer-events: none;
+    overflow: hidden;
+    mask-image: linear-gradient(to top, black 40%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to top, black 40%, transparent 100%);
+}
+
+.floor-grid {
+    position: absolute;
+    top: 0;
+    left: -50%;
+    width: 200%;
+    height: 100%;
+    background-image: 
+        linear-gradient(rgba(58, 134, 255, 0.3) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(58, 134, 255, 0.3) 1px, transparent 1px);
+    background-size: 40px 40px;
+    transform: rotateX(60deg);
+    transform-origin: top center;
+    animation: grid-scroll 5s linear infinite;
+    box-shadow: 0 0 50px rgba(123, 44, 191, 0.2);
+}
+
+.floor-horizon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--primary-color);
+    box-shadow: 0 0 20px var(--primary-color), 0 0 40px var(--secondary-color);
+    z-index: 2;
+}
+
+@keyframes grid-scroll {
+    0% { background-position: 0 0; }
+    100% { background-position: 0 40px; }
+}
+
+/* Background Effects */
+#canvas-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.scanlines {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0),
+        rgba(255, 255, 255, 0) 50%,
+        rgba(0, 0, 0, 0.2) 50%,
+        rgba(0, 0, 0, 0.2)
+    );
+    background-size: 100% 4px;
+    z-index: 100;
+    pointer-events: none;
+    opacity: 0.3;
+}
+
+.vignette {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, transparent 50%, black 100%);
+    z-index: 99;
+    pointer-events: none;
+}
+
+/* Header */
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    z-index: 1000;
+    background: rgba(5, 5, 5, 0.8);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(0, 243, 255, 0.2);
+}
+
+/* Navigation */
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+}
+
+.nav-link {
+    text-decoration: none;
+    font-size: 1.1rem;
+    position: relative;
+    transition: all 0.3s;
+    font-family: var(--font-heading);
+    font-weight: bold;
+    /* Gradient Text: Blue to Purple */
+    background: linear-gradient(90deg, #3a86ff 0%, #7b2cbf 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    /* Static Glow */
+    filter: drop-shadow(0 0 5px rgba(58, 134, 255, 0.5));
+}
+
+.nav-link:hover {
+    filter: drop-shadow(0 0 8px rgba(58, 134, 255, 0.8)) drop-shadow(0 0 15px rgba(123, 44, 191, 0.6));
+    transform: scale(1.05);
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--primary-color);
+    transition: width 0.3s;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+/* GLOBAL TEXT GRADIENT UTILITY */
+.glitch-title,
+.subtitle,
+.section-title,
+.logo {
+    background: linear-gradient(90deg, #3a86ff 0%, #7b2cbf 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    
+    /* Dynamic Chromatic Aberration */
+    text-shadow: 
+        var(--rgb-x, 0) var(--rgb-y, 0) var(--rgb-blur, 0) rgba(255, 0, 0, 0.5),
+        calc(var(--rgb-x, 0) * -1) calc(var(--rgb-y, 0) * -1) var(--rgb-blur, 0) rgba(0, 0, 255, 0.5);
+    transition: text-shadow 0.1s;
+}
+
+/* Feature Cards Distortion */
+.feature-card {
+    /* ... existing styles ... */
+    /* Add subtle border shift */
+    box-shadow: 
+        var(--rgb-x, 0) var(--rgb-y, 0) 20px rgba(58, 134, 255, 0.2),
+        calc(var(--rgb-x, 0) * -1) calc(var(--rgb-y, 0) * -1) 20px rgba(123, 44, 191, 0.2);
+}
+
+/* Footer Text */
+footer p {
+    background: linear-gradient(90deg, #3a86ff 0%, #7b2cbf 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+/* Hero Section */
+#hero {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+}
+
+.hero-content {
+    z-index: 10;
+}
+
+.glitch-title {
+    font-family: var(--font-heading);
+    font-size: 6rem;
+    font-weight: 900;
+    /* Color handled by gradient utility */
+    position: relative;
+    letter-spacing: 10px;
+    margin-bottom: 20px;
+    /* Added glow animation to main title too, removed glitch effect on main layer if needed, but user said "seul animation c'est que sa fasse briller" */
+    /* Assuming user wants ONLY glow on the TITLE as well, removing glitch layers? */
+    /* "pour le titre bluemagic ou juste en bas ya ecrit bluemagic the best multitool" -> Both title and subtitle */
+    animation: glow-pulse 1.5s infinite alternate; /* Speed up from 3s to 1.5s */
+}
+
+/* Remove Glitch Pseudo-elements */
+.glitch-title::before, .glitch-title::after {
+    content: none;
+}
+
+.subtitle {
+    font-size: 1.5rem;
+    /* Color handled by gradient utility */
+    letter-spacing: 5px;
+    margin-bottom: 50px;
+    text-transform: uppercase;
+    /* Removed flicker animation, added subtle glow pulse */
+    animation: glow-pulse 1.5s infinite alternate; /* Speed up from 3s to 1.5s */
+}
+
+@keyframes glow-pulse {
+    /* Removed old glow-pulse to let Chromatic Aberration take over, or mix it? */
+    /* Let's keep it simple: static glow + dynamic aberration */
+    0% { opacity: 0.9; }
+    100% { opacity: 1; }
+}
+
+/* Cyber Button - RESTORED ORIGINAL DESIGN */
+.cyber-btn {
+    position: relative;
+    display: inline-block;
+    padding: 15px 40px;
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    color: #ffffff;
+    background: linear-gradient(90deg, #3a86ff 0%, #7b2cbf 100%);
+    text-decoration: none;
+    clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
+    transition: all 0.3s;
+    font-weight: bold;
+    z-index: 1;
+}
+
+.cyber-btn:hover {
+    background: linear-gradient(90deg, #4a9bff 0%, #8b3cff 100%);
+    color: white;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 20px rgba(90, 120, 255, 0.75);
+}
+
+.cyber-btn__tag {
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+    font-size: 0.6rem;
+    color: var(--bg-color);
+    opacity: 0.7;
+}
+
+/* Ensure Button Text is Visible (Not Transparent Gradient) on Solid Background */
+.cyber-btn__text {
+    background: none;
+    -webkit-background-clip: unset;
+    background-clip: unset;
+    color: #000000;
+    text-shadow: none;
+}
+
+/* Presentation Section */
+#presentation {
+    min-height: 80vh; /* Reduced height */
+    padding: 180px 50px 50px 50px; /* Increased top padding to push video down further */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 40px;
+}
+
+#presentation .section-title {
+    margin-bottom: 12px;
+}
+
+.video-wrapper {
+    width: 80%;
+    max-width: 1000px;
+    position: relative;
+    /* Clean look - removed fancy borders/corners for "embedded" feel */
+}
+
+.video-frame {
+    position: relative;
+    padding: 0;
+    background: transparent;
+    border: none;
+    box-shadow: 0 0 50px rgba(123, 44, 191, 0.2); /* Subtle glow */
+    overflow: hidden; /* Ensures corners are respected */
+    border-radius: 18px;
+}
+
+/* Remove animated border specifically for video frame */
+.video-frame .border-glow-1,
+.video-frame .border-glow-2 {
+    display: none;
+}
+
+/* Hide custom corners */
+.corner { display: none; }
+
+.video-frame video {
+    width: 100%;
+    display: block;
+    box-shadow: none;
+    /* Remove default controls if possible via CSS (mostly JS but pointer-events helps) */
+    pointer-events: none; /* Disables interaction with controls */
+}
+
+/* Overlay to prevent clicking but allow seeing */
+.video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent; /* Fully transparent */
+    pointer-events: auto; /* Captures clicks so video controls aren't triggered */
+    z-index: 10;
+}
+
+/* Section Title Gradient */
+.section-title {
+    font-family: var(--font-heading);
+    font-size: 3rem;
+    margin-bottom: 50px;
+    text-transform: uppercase;
+    position: relative;
+    display: inline-block;
+    /* Smooth Gradient Text: Blue to Purple */
+    background: linear-gradient(90deg, #3a86ff 0%, #7b2cbf 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    
+    /* Holographic Reflection */
+    -webkit-box-reflect: below -10px linear-gradient(transparent, rgba(0, 0, 0, 0.2));
+}
+
+.section-title::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 4px;
+    background: var(--primary-color);
+    margin-top: 10px;
+    box-shadow: 0 0 10px var(--primary-color);
+}
+
+/* Features Section */
+#features {
+    padding: 82px 50px 10px 50px;
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.features-grid {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 22px;
+    max-width: 1600px;
+    width: 100%;
+    margin-top: 88px;
+}
+
+/* Feature Cards Uniformity */
+.feature-card {
+    background: linear-gradient(180deg, rgba(18, 18, 22, 0.78), rgba(8, 8, 12, 0.7));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 8px 9px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s, border-color 0.3s;
+    width: 208px;
+    height: auto;
+    min-height: 252px;
+    box-sizing: border-box;
+    
+    display: flex;
+    flex-direction: column;
+    border-radius: 14px;
+}
+
+/* Specific Placements & Sizes - PYRAMIDE CLASSIQUE (POINTE EN HAUT) */
+
+.systeme {
+    order: 3;
+    transform: translateY(-48px);
+    border-color: #ffd700;
+    box-shadow: 0 0 38px rgba(255, 215, 0, 0.5), inset 0 0 24px rgba(255, 215, 0, 0.09);
+    z-index: 10;
+    background: linear-gradient(180deg, rgba(38, 30, 6, 0.85), rgba(10, 10, 12, 0.75));
+    animation: premiumPulse 2.8s ease-in-out infinite;
+}
+.systeme .feature-list {
+    margin-top: 0;
+}
+
+
+@keyframes premiumPulse {
+    0%, 100% { box-shadow: 0 0 32px rgba(255, 215, 0, 0.42), inset 0 0 18px rgba(255, 215, 0, 0.08); }
+    50% { box-shadow: 0 0 48px rgba(255, 215, 0, 0.62), inset 0 0 28px rgba(255, 215, 0, 0.12); }
+}
+
+
+.malware {
+    order: 1;
+    transform: translateY(0px);
+}
+
+.scam {
+    order: 2;
+    transform: translateY(-24px);
+}
+
+.panel {
+    order: 4;
+    transform: translateY(-24px);
+}
+
+.network {
+    order: 5;
+    transform: translateY(0px);
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 7px;
+}
+
+.card-header i {
+    font-size: 1rem;
+    color: var(--primary-color);
+    margin-right: 8px;
+}
+
+.card-header h3 {
+    font-family: var(--font-heading);
+    font-size: 0.93rem;
+    color: white;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.new-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 0.58rem;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: #111;
+    background: linear-gradient(90deg, #ffe27a, #ffd700 48%, #ffefb0);
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.55);
+}
+
+.feature-list {
+    list-style: none;
+    padding-left: 5px;
+    flex-grow: 0;
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+.feature-list li {
+    margin-bottom: 2px;
+    position: relative;
+    padding-left: 13px;
+    font-size: 0.72rem;
+    color: #aaa;
+    transition: color 0.3s;
+    line-height: 1.15;
+}
+
+.feature-list li::before {
+    content: '>';
+    position: absolute;
+    left: 0;
+    color: var(--secondary-color);
+}
+
+.card-footer {
+    display: none; /* Cache le status online */
+}
+
+
+.status.highlight {
+    color: var(--accent-color);
+    font-weight: bold;
+}
+
+/* Contact Section */
+#contact {
+    padding: 100px 50px;
+    text-align: center;
+    background: radial-gradient(circle at center, rgba(20, 20, 50, 0.5), transparent);
+}
+
+.contact-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 40px;
+}
+
+.cyber-btn.secondary {
+    background: transparent;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+}
+
+.cyber-btn.secondary:hover {
+    background: var(--primary-color);
+    color: var(--bg-color);
+}
+
+/* Footer */
+footer {
+    padding: 30px;
+    background: black;
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.8rem;
+    color: #666;
+}
+
+.blink {
+    color: var(--primary-color);
+    animation: blink 1s infinite;
+}
+
+/* Animations */
+@keyframes glitch-anim {
+    0% { clip: rect(20px, 9999px, 15px, 0); transform: skew(0.6deg); }
+    5% { clip: rect(70px, 9999px, 95px, 0); transform: skew(0.6deg); }
+    10% { clip: rect(35px, 9999px, 85px, 0); transform: skew(0.2deg); }
+    15% { clip: rect(10px, 9999px, 5px, 0); transform: skew(0.1deg); }
+    20% { clip: rect(50px, 9999px, 25px, 0); transform: skew(0.8deg); }
+    25% { clip: rect(15px, 9999px, 65px, 0); transform: skew(0.2deg); }
+    30% { clip: rect(85px, 9999px, 45px, 0); transform: skew(0.1deg); }
+    35% { clip: rect(25px, 9999px, 75px, 0); transform: skew(0.9deg); }
+    40% { clip: rect(65px, 9999px, 35px, 0); transform: skew(0.3deg); }
+    45% { clip: rect(5px, 9999px, 55px, 0); transform: skew(0.5deg); }
+    50% { clip: rect(90px, 9999px, 15px, 0); transform: skew(0.1deg); }
+    55% { clip: rect(40px, 9999px, 95px, 0); transform: skew(0.7deg); }
+    60% { clip: rect(80px, 9999px, 5px, 0); transform: skew(0.2deg); }
+    65% { clip: rect(30px, 9999px, 65px, 0); transform: skew(0.6deg); }
+    70% { clip: rect(75px, 9999px, 25px, 0); transform: skew(0.4deg); }
+    75% { clip: rect(15px, 9999px, 85px, 0); transform: skew(0.8deg); }
+    80% { clip: rect(60px, 9999px, 45px, 0); transform: skew(0.3deg); }
+    85% { clip: rect(10px, 9999px, 75px, 0); transform: skew(0.9deg); }
+    90% { clip: rect(55px, 9999px, 35px, 0); transform: skew(0.5deg); }
+    95% { clip: rect(95px, 9999px, 55px, 0); transform: skew(0.1deg); }
+    100% { clip: rect(45px, 9999px, 15px, 0); transform: skew(0.7deg); }
+}
+
+@keyframes glitch-anim-2 {
+    0% { clip: rect(65px, 9999px, 100px, 0); transform: skew(0.9deg); }
+    5% { clip: rect(5px, 9999px, 75px, 0); transform: skew(0.3deg); }
+    10% { clip: rect(95px, 9999px, 15px, 0); transform: skew(0.7deg); }
+    15% { clip: rect(35px, 9999px, 65px, 0); transform: skew(0.1deg); }
+    20% { clip: rect(75px, 9999px, 25px, 0); transform: skew(0.5deg); }
+    25% { clip: rect(15px, 9999px, 85px, 0); transform: skew(0.9deg); }
+    30% { clip: rect(55px, 9999px, 45px, 0); transform: skew(0.2deg); }
+    35% { clip: rect(95px, 9999px, 5px, 0); transform: skew(0.6deg); }
+    40% { clip: rect(25px, 9999px, 55px, 0); transform: skew(0.4deg); }
+    45% { clip: rect(85px, 9999px, 35px, 0); transform: skew(0.8deg); }
+    50% { clip: rect(45px, 9999px, 95px, 0); transform: skew(0.3deg); }
+    55% { clip: rect(5px, 9999px, 25px, 0); transform: skew(0.1deg); }
+    60% { clip: rect(65px, 9999px, 75px, 0); transform: skew(0.7deg); }
+    65% { clip: rect(35px, 9999px, 15px, 0); transform: skew(0.2deg); }
+    70% { clip: rect(95px, 9999px, 65px, 0); transform: skew(0.5deg); }
+    75% { clip: rect(15px, 9999px, 45px, 0); transform: skew(0.9deg); }
+    80% { clip: rect(75px, 9999px, 85px, 0); transform: skew(0.6deg); }
+    85% { clip: rect(25px, 9999px, 35px, 0); transform: skew(0.4deg); }
+    90% { clip: rect(85px, 9999px, 95px, 0); transform: skew(0.1deg); }
+    95% { clip: rect(45px, 9999px, 55px, 0); transform: skew(0.8deg); }
+    100% { clip: rect(5px, 9999px, 15px, 0); transform: skew(0.3deg); }
+}
+
+@keyframes flicker {
+    0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
+    20%, 24%, 55% { opacity: 0.5; }
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .features-grid {
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: stretch;
+        margin-top: 40px;
+    }
+    .systeme, .malware, .scam, .panel, .network {
+        transform: none;
+        height: auto;
+    }
+    header {
+        padding: 16px 22px;
+    }
+    nav ul {
+        gap: 16px;
+    }
+    .nav-link {
+        font-size: 0.95rem;
+    }
+    #presentation {
+        padding: 130px 24px 40px;
+        min-height: auto;
+        gap: 24px;
+    }
+    .video-wrapper {
+        width: min(980px, 96vw);
+    }
+    .contact-links {
+        flex-wrap: wrap;
+    }
+    footer {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+}
+@media (max-width: 768px) {
+    header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 12px;
+        padding: 14px 14px 10px;
+    }
+    .logo-container {
+        width: 100%;
+    }
+    nav {
+        width: 100%;
+    }
+    nav ul {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px 14px;
+        width: 100%;
+        justify-content: flex-start;
+    }
+    .nav-link {
+        font-size: 0.9rem;
+    }
+    #hero {
+        min-height: 100vh;
+        padding: 120px 12px 30px;
+    }
+    .glitch-title {
+        font-size: clamp(2.2rem, 12vw, 3rem);
+        letter-spacing: 3px;
+        margin-bottom: 14px;
+    }
+    .subtitle {
+        font-size: clamp(0.9rem, 4.2vw, 1.1rem);
+        letter-spacing: 2px;
+        margin-bottom: 24px;
+    }
+    .cyber-btn {
+        width: min(92vw, 360px);
+        text-align: center;
+        padding: 14px 18px;
+        font-size: 1rem;
+    }
+    #features {
+        padding: 56px 12px 8px;
+    }
+    .section-title {
+        font-size: clamp(1.65rem, 7.5vw, 2.25rem);
+        margin-bottom: 30px;
+    }
+    .features-grid {
+        flex-direction: column;
+        align-items: center;
+        margin-top: 24px;
+    }
+    .feature-card {
+        width: min(94vw, 380px);
+        height: auto;
+        min-height: 220px;
+    }
+    #presentation {
+        padding: 110px 12px 36px;
+    }
+    #contact {
+        padding: 70px 12px;
+    }
+    .contact-links {
+        margin-top: 24px;
+        gap: 12px;
+        flex-direction: column;
+        align-items: center;
+    }
+}
+@media (max-width: 480px) {
+    header {
+        padding-top: max(12px, env(safe-area-inset-top));
+    }
+    .logo {
+        font-size: 1.25rem;
+    }
+    .logo-container img {
+        height: 40px !important;
+    }
+    .nav-link {
+        font-size: 0.82rem;
+    }
+    .section-title {
+        font-size: clamp(1.4rem, 8vw, 1.85rem);
+    }
+}
+

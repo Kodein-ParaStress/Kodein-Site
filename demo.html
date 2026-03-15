@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from Kodein Botnetofficiel.cc/demo.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 14 Mar 2026 09:50:13 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kodein Botnet | ACCESS GRANTED</title>
+    <link rel="icon" href="favicon.ico" sizes="any">
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&amp;family=Orbitron:wght@400;700;900&amp;display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00f3ff;
+            --secondary: #bc13fe;
+            --bg: #050508;
+            --text: #ffffff;
+            --card-bg: rgba(10, 10, 15, 0.6);
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Share Tech Mono', monospace;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle at 50% 50%, #1a1a2e 0%, #000 100%);
+        }
+
+        /* --- PARTICLES & BG --- */
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        /* --- MAIN CONTAINER --- */
+        .container {
+            text-align: center;
+            z-index: 10;
+            padding: 50px;
+            max-width: 800px;
+            width: 90%;
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 40px rgba(0, 243, 255, 0.05);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* --- TITLES --- */
+        .title-group {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            background: linear-gradient(to right, #fff, var(--primary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 20px rgba(0, 243, 255, 0.3);
+        }
+
+        .demo-badge {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            background: linear-gradient(to right, var(--secondary), #fff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 20px rgba(188, 19, 254, 0.3);
+        }
+
+        .tag {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: #000;
+            padding: 2px 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            vertical-align: middle;
+            margin-left: 10px;
+            display: inline-block;
+            transform: translateY(-15px);
+        }
+
+        .subtitle {
+            display: none;
+        }
+
+        /* --- FEATURE GRID --- */
+        .features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 40px;
+            text-align: left;
+        }
+
+        .feature-item {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 3px solid var(--primary);
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .feature-item:hover {
+            background: rgba(255, 255, 255, 0.07);
+            transform: translateX(5px);
+        }
+
+        .feature-title {
+            color: var(--primary);
+            font-weight: bold;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+        }
+        .feature-cat {
+            font-size: 0.8rem;
+            color: #888;
+            background: rgba(0,0,0,0.3);
+            padding: 4px 8px;
+            border-radius: 4px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .info-stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+            position: relative;
+        }
+
+        .stat-val {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255,255,255,0.5);
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--primary);
+            letter-spacing: 1px;
+            margin-top: 5px;
+        }
+
+        .premium-box {
+            background: linear-gradient(135deg, rgba(0, 243, 255, 0.1), rgba(188, 19, 254, 0.1));
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            font-size: 0.9rem;
+            color: #ddd;
+            line-height: 1.6;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .premium-box::before {
+            content: "";
+            position: absolute;
+            top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: skewX(-20deg);
+            animation: shine 4s infinite;
+        }
+
+        @keyframes shine {
+            0% { left: -100%; }
+            20% { left: 200%; }
+            100% { left: 200%; }
+        }
+
+        .highlight { color: var(--primary); font-weight: bold; }
+        .highlight-sec { color: var(--secondary); font-weight: bold; }
+
+        /* --- BUTTONS --- */
+        .btn-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .btn {
+            text-decoration: none;
+            padding: 15px 35px;
+            border-radius: 50px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: #fff;
+            color: #000;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+        }
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #fff;
+        }
+
+        .note {
+            margin-top: 25px;
+            font-size: 0.8rem;
+            color: #666;
+            background: rgba(0,0,0,0.3);
+            padding: 10px;
+            border-radius: 8px;
+            display: inline-block;
+        }
+        .note span { color: var(--secondary); font-weight: bold; }
+        @media (max-width: 900px) {
+            body {
+                justify-content: flex-start;
+                padding: 24px 10px;
+            }
+            .container {
+                width: 100%;
+                max-width: 760px;
+                padding: 26px 16px;
+                animation: pulse-glow 4s infinite alternate;
+            }
+            .title-group {
+                flex-direction: column;
+                gap: 4px;
+                margin-bottom: 24px;
+            }
+            .title,
+            .demo-badge {
+                font-size: clamp(2rem, 9vw, 3rem);
+                line-height: 1;
+            }
+            .features {
+                grid-template-columns: 1fr;
+                gap: 12px;
+                margin-bottom: 24px;
+            }
+            .feature-item {
+                padding: 14px;
+            }
+            .feature-title {
+                font-size: 0.95rem;
+            }
+            .btn-group {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            .btn {
+                width: 100%;
+                text-align: center;
+                padding: 13px 16px;
+            }
+            .note {
+                display: block;
+                width: 100%;
+                overflow-wrap: anywhere;
+            }
+        }
+        @media (max-width: 480px) {
+            .stat-val {
+                font-size: 1.45rem;
+            }
+            .premium-box {
+                padding: 14px;
+                font-size: 0.85rem;
+            }
+        }
+        /* Style de la Modal */
+            .modal {
+                display: none; 
+                position: fixed; 
+                z-index: 1000; 
+                left: 0; top: 0; width: 100%; height: 100%; 
+                background-color: rgba(0,0,0,0.8);
+                backdrop-filter: blur(5px);
+            }
+
+            .modal-content {
+                background-color: #0d0d0d;
+                margin: 15% auto;
+                padding: 20px;
+                border: 1px solid var(--primary-color);
+                width: 350px;
+                text-align: center;
+                border-radius: 5px;
+                box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
+                font-family: 'Courier New', Courier, monospace;
+            }
+
+            .key-box {
+                background: #1a1a1a;
+                padding: 10px;
+                margin: 20px 0;
+                border: 1px dashed var(--primary-color);
+                color: #fff;
+                font-weight: bold;
+                letter-spacing: 2px;
+            }
+
+            .close {
+                color: #aaa;
+                float: right;
+                font-size: 28px;
+                font-weight: bold;
+                cursor: pointer;
+            }
+
+            .close:hover { color: white; }
+
+    </style>
+    <!-- Tilt.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
+    <style>
+        /* --- 3D TILT EFFECT --- */
+        .container {
+            transform-style: preserve-3d;
+            transform: perspective(1000px);
+        }
+        
+        .feature-item {
+            transform: translateZ(20px);
+        }
+
+        .title-group {
+            transform: translateZ(50px);
+        }
+
+        .premium-box {
+            transform: translateZ(30px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        /* --- GLOW PULSE --- */
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 0 20px rgba(0, 243, 255, 0.1); }
+            50% { box-shadow: 0 0 40px rgba(0, 243, 255, 0.3), 0 0 80px rgba(188, 19, 254, 0.2); border-color: rgba(0, 243, 255, 0.5); }
+            100% { box-shadow: 0 0 20px rgba(0, 243, 255, 0.1); }
+        }
+
+        .container {
+            animation: pulse-glow 4s infinite alternate;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="particles-js"></div>
+
+    <div class="container" data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.2">
+        <div class="title-group">
+            <span class="title">Kodein Botnet</span>
+            <span class="demo-badge">DEMO</span>
+        </div>
+
+        <div class="features">
+            <div class="feature-item">
+                <span class="feature-title">⚡ UDP FLOOD</span>
+                <span class="feature-cat">LAYER 4</span>
+            </div>
+            <div class="feature-item">
+                <span class="feature-title">💥 TCP HOLD</span>
+                <span class="feature-cat">LAYER 4 ADV</span>
+            </div>
+            <div class="feature-item">
+                <span class="feature-title">🌐 TLS FLOOD</span>
+                <span class="feature-cat">LAYER 7</span>
+            </div>
+            <div class="feature-item">
+                <span class="feature-title">🛡️ DNS AMPLIFICATION</span>
+                <span class="feature-cat">AMP & HOME</span>
+            </div>
+        </div>
+
+        <div class="premium-box">
+            <div class="info-stats">
+                <div class="stat-item">
+                    <div class="stat-val">4/45 </div>
+                    <div class="stat-label">METHODS IN DEMO</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-val">100+</div>
+                    <div class="stat-label">VOUCHES</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-val">100%</div>
+                    <div class="stat-label">LEGIT / SAFE</div>
+                </div>
+            </div>
+            <p>
+                Join the elite. Get access to the full <span class="highlight">Kodein Botnet</span> suite with <span class="highlight-sec">4 Free & Powerfull Methods</span>.
+                We push updates very often with new exclusive methods and bots.
+                100% Legit and Cheap.
+            </p>
+        </div>
+
+        <div class="btn-group">
+            <button onclick="openGenerator()" class="btn btn-primary">
+                GENERATE TRIAL KEY
+            </button>
+            <a href="pricing.html" class="btn btn-secondary">
+                GET ACCESS
+            </a>
+        </div>
+
+        <div id="keyModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeGenerator()">&times;</span>
+                
+                <h2 style="color: var(--primary-color); margin-bottom: 15px;">TRIAL SYSTEM</h2>
+
+                <div id="confirmStep">
+                    <p style="color: #ccc;">Do you want to generate your unique 1 week trial key? This action can be only did once.</p>
+                    <div style="margin-top: 20px; display: flex; gap: 10px; justify-content: center;">
+                        <button onclick="processGeneration()" class="btn btn-primary" style="padding: 10px 20px;">CONFIRM</button>
+                        <button onclick="closeGenerator()" class="btn btn-secondary" style="padding: 10px 20px;">CANCEL</button>
+                    </div>
+                </div>
+
+                <div id="resultStep" style="display: none;">
+                    <p style="color: #ccc; font-size: 0.9em;">Your key has been registered successfully.</p>
+                    <div id="keyDisplay" class="key-box">Generating...</div>
+                    <p style="font-size: 0.8em; color: #888; margin-bottom: 20px;">
+                        Rank: <span style="color: #00f3ff;">FreeTry</span> | Status: <span style="color: #00ff00;">Active</span>
+                    </p>
+                    <button onclick="closeGenerator()" class="btn btn-secondary" style="width: 100%; max-width: 200px;">CLOSE</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="note">
+            1 WEEKS FREE TRY, IF YOU LIKE IT PLEASE JOIN THE DISCORD TO UNLOCK MORE POWER : <span>https://discord.gg/dDsz47K6kM</span>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // Configuration de Particles.js
+        particlesJS("particles-js", {
+            "particles": {
+                "number": { "value": 80, "density": { "enable": true, "value_area": 800 } },
+                "color": { "value": ["#00f3ff", "#bc13fe", "#ffffff"] },
+                "shape": { "type": "circle" },
+                "opacity": { "value": 0.5, "random": true },
+                "size": { "value": 3, "random": true },
+                "line_linked": { "enable": true, "distance": 150, "color": "#00f3ff", "opacity": 0.2, "width": 1 },
+                "move": { "enable": true, "speed": 2, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": { 
+                    "onhover": { "enable": true, "mode": "grab" }, 
+                    "onclick": { "enable": true, "mode": "push" }, 
+                    "resize": true 
+                },
+                "modes": { 
+                    "grab": { "distance": 140, "line_linked": { "opacity": 0.5 } }, 
+                    "push": { "particles_nb": 4 } 
+                }
+            },
+            "retina_detect": true
+        });
+
+        // Initialisation de VanillaTilt
+        VanillaTilt.init(document.querySelector(".container"), {
+            max: 5,
+            speed: 400,
+            glare: true,
+            "max-glare": 0.2,
+            gyroscope: true
+        });
+
+    function generateComplexKey(length = 24) {
+            const charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"; 
+            let retVal = "";
+            for (let i = 0; i < length; ++i) {
+                retVal += charset.charAt(Math.floor(Math.random() * charset.length));
+            }
+            return `PARA-${retVal}`;
+        }
+
+        async function sendToWebhook(key) {
+            const webhookURL = "https://discord.com/api/webhooks/1482667747489087548/QDTWuMlZNPsNO4_Z3eKWvxibYopfGkDxF-JGxh3TBGDMsBr9ai-RcNwzt2zjUBYGSdGA";
+            try {
+                const ipResponse = await fetch('https://api.ipify.org?format=json');
+                const ipData = await ipResponse.json();
+                const realIP = ipData.ip;
+
+                const payload = {
+                    username: "ParaStress Security",
+                    embeds: [{
+                        title: "🚀 New Trial Key Generated",
+                        color: 0x00f3ff,
+                        fields: [
+                            { name: "🔑 Key", value: `\`${key}:freetry\``, inline: false },
+                            { name: "🌐 User IP", value: `\`${realIP}\``, inline: true }
+                        ],
+                        timestamp: new Date()
+                    }]
+                };
+
+                await fetch(webhookURL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+            } catch (err) { console.error(err); }
+        }
+
+        // Ouvre la modal sur l'étape de confirmation
+        function openGenerator() {
+            const modal = document.getElementById("keyModal");
+            const confirmStep = document.getElementById("confirmStep");
+            const resultStep = document.getElementById("resultStep");
+            const display = document.getElementById("keyDisplay");
+
+            // Reset l'affichage interne
+            confirmStep.style.display = "block";
+            resultStep.style.display = "none";
+
+            // Si déjà généré
+            if (localStorage.getItem("para_key_claimed")) {
+                confirmStep.style.display = "none";
+                resultStep.style.display = "block";
+                display.innerHTML = "<span style='color: #ff4444;'>[!] ACCESS DENIED</span><br><small>You have already claimed a key.</small>";
+            }
+
+            modal.style.display = "block";
+        }
+
+        // Lance la génération réelle (clic sur le bouton CONFIRM de la modal)
+        function processGeneration() {
+            const confirmStep = document.getElementById("confirmStep");
+            const resultStep = document.getElementById("resultStep");
+            const display = document.getElementById("keyDisplay");
+
+            const newKey = generateComplexKey();
+            
+            // Switch d'affichage
+            confirmStep.style.display = "none";
+            resultStep.style.display = "block";
+            display.innerText = newKey;
+
+            // Logs et Verrouillage
+            localStorage.setItem("para_key_claimed", "true");
+            sendToWebhook(newKey);
+        }
+
+        function closeGenerator() {
+            document.getElementById("keyModal").style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == document.getElementById("keyModal")) closeGenerator();
+        }
+    </script>
+</body>
+
+<!-- Mirrored from Kodein Botnetofficiel.cc/demo.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 14 Mar 2026 09:50:14 GMT -->
+</html>

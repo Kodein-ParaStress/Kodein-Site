@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>INFRASTRUCTURE KODEIN V3.0 - GLOBAL C2</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; background: #000; overflow: hidden; font-family: 'JetBrains Mono', monospace; }
+        canvas { display: block; }
+        
+        /* HUD OVERLAY */
+        .hud { position: absolute; inset: 0; pointer-events: none; z-index: 100; border: 1px solid rgba(255, 0, 68, 0.2); margin: 10px; }
+        
+        .header {
+            position: absolute; top: 40px; left: 50%; transform: translateX(-50%);
+            text-align: center; background: rgba(0,0,0,0.85); padding: 15px 60px;
+            border: 1px solid #ff0044; box-shadow: 0 0 30px rgba(255, 0, 68, 0.4);
+        }
+        .header h1 { margin: 0; font-family: 'Orbitron'; color: #ff0044; letter-spacing: 12px; font-size: 2rem; text-shadow: 0 0 10px #ff0044; }
+
+        .bot-stats {
+            position: absolute; bottom: 50px; left: 50px;
+            background: rgba(10, 0, 0, 0.9); border-left: 5px solid #ff0044;
+            padding: 25px; box-shadow: 10px 10px 30px rgba(0,0,0,0.5);
+        }
+        .counter { font-size: 2.5rem; font-weight: bold; color: #fff; text-shadow: 0 0 10px #ff0044; }
+        
+        .loading-screen {
+            position: fixed; inset: 0; background: #000; z-index: 1000;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            color: #ff0044; font-family: 'Orbitron'; transition: opacity 1s;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="loader" class="loading-screen">
+        <div style="font-size: 2rem; margin-bottom: 20px;">INITIALIZING GLOBAL INFRASTRUCTURE...</div>
+        <div id="progress">100%</div>
+    </div>
+
+    <div class="hud">
+        <div class="header">
+            <h1>INFRASTRUCTURE</h1>
+            <div style="font-size: 0.8rem; color: #666; margin-top: 5px;">GEN-4 GLOBAL BOTNET ARCHITECTURE // LIVE FEED</div>
+        </div>
+
+        <div class="bot-stats">
+            <div style="color: #ff0044; font-size: 0.9rem; margin-bottom: 5px; letter-spacing: 2px;">ONLINE NODES</div>
+            <div class="counter">948</div>
+            <div style="color: #00ff88; font-size: 0.7rem; margin-top: 10px;">► SAT CONNECTION: STABLE</div>
+        </div>
+    </div>
+
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        document.body.appendChild(renderer.domElement);
+
+        const loader = new THREE.TextureLoader();
+        const earthGroup = new THREE.Group();
+        scene.add(earthGroup);
+
+        // 1. TERRE HD (AVEC LUMIÈRES DE NUIT)
+        const earthMat = new THREE.MeshPhongMaterial({
+            map: loader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_atmos_2048.jpg'),
+            emissiveMap: loader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_lights_2048.png'),
+            emissive: new THREE.Color(0xffff88),
+            emissiveIntensity: 0.5,
+            bumpMap: loader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_normal_2048.jpg'),
+            bumpScale: 0.15,
+            specularMap: loader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_specular_2048.jpg'),
+            shininess: 5
+        });
+        const earth = new THREE.Mesh(new THREE.SphereGeometry(5, 64, 64), earthMat);
+        earthGroup.add(earth);
+
+        // 2. NUAGES RÉALISTES
+        const cloudMat = new THREE.MeshPhongMaterial({
+            map: loader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_clouds_1024.png'),
+            transparent: true, opacity: 0.3
+        });
+        const clouds = new THREE.Mesh(new THREE.SphereGeometry(5.08, 64, 64), cloudMat);
+        earthGroup.add(clouds);
+
+        // 3. LOGIQUE DE PLACEMENT DES BOTS (GLOBAL)
+        fetch('https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_land.geojson')
+            .then(res => res.json())
+            .then(data => {
+                const landPolygons = data.features.map(f => f.geometry.coordinates).flat(1);
+                
+                function isPointInPoly(pt, poly) {
+                    let x = pt[0], y = pt[1], inside = false;
+                    for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) {
+                        let xi = poly[i][0], yi = poly[i][1], xj = poly[j][0], yj = poly[j][1];
+                        if (((yi > y) != (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi)) inside = !inside;
+                    }
+                    return inside;
+                }
+
+                let placed = 0;
+                while (placed < 948) {
+                    let lng = Math.random() * 360 - 180;
+                    let lat = Math.random() * 160 - 80;
+                    
+                    let onLand = false;
+                    // On vérifie sur tous les continents
+                    for (const poly of landPolygons) {
+                        let target = Array.isArray(poly[0][0]) ? poly[0] : poly;
+                        if (isPointInPoly([lng, lat], target)) { onLand = true; break; }
+                    }
+
+                    if (onLand) {
+                        const bot = new THREE.Mesh(
+                            new THREE.SphereGeometry(0.04, 8, 8),
+                            new THREE.MeshBasicMaterial({ color: 0xff0044 })
+                        );
+                        const phi = (90 - lat) * (Math.PI / 180);
+                        const theta = (lng + 180) * (Math.PI / 180);
+                        bot.position.set(-5.05 * Math.sin(phi) * Math.cos(theta), 5.05 * Math.cos(phi), 5.05 * Math.sin(phi) * Math.sin(theta));
+                        
+                        // Glow Sprite
+                        const sprite = new THREE.Sprite(new THREE.SpriteMaterial({
+                            map: loader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/lensflare/lensflare0.png'),
+                            color: 0xff0044, transparent: true, opacity: 0.8, blending: THREE.AdditiveBlending
+                        }));
+                        sprite.scale.set(0.2, 0.2, 1);
+                        bot.add(sprite);
+                        earth.add(bot);
+                        placed++;
+                    }
+                }
+                document.getElementById('loader').style.opacity = '0';
+                setTimeout(() => document.getElementById('loader').remove(), 1000);
+            });
+
+        // LUMIÈRE
+        const sun = new THREE.DirectionalLight(0xffffff, 1.5);
+        sun.position.set(10, 5, 10);
+        scene.add(sun);
+        scene.add(new THREE.AmbientLight(0x222222));
+
+        camera.position.z = 13;
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.autoRotate = true;
+        controls.autoRotateSpeed = 0.4;
+
+        function animate() {
+            requestAnimationFrame(animate);
+            clouds.rotation.y += 0.0005;
+            controls.update();
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>

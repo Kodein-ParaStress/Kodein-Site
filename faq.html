@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ParaStress | Advanced Support Center</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        :root {
+            --primary: #00f3ff;
+            --accent: #bc13fe;
+            --bg: #050505;
+            --card-bg: rgba(255, 255, 255, 0.02);
+            --border: rgba(0, 243, 255, 0.1);
+        }
+
+        body {
+            background-color: var(--bg);
+            color: #ffffff;
+            font-family: 'Rajdhani', sans-serif;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        .faq-wrapper {
+            max-width: 1000px;
+            margin: 100px auto;
+            padding: 0 20px;
+        }
+
+        /* HEADER & SEARCH */
+        .faq-header { text-align: center; margin-bottom: 80px; }
+        
+        .faq-header h1 {
+            font-size: 3.5rem;
+            letter-spacing: 10px;
+            text-transform: uppercase;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text; /* Correctif pour ton erreur VS Code */
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            animation: glowTitle 1.5s ease-out forwards;
+        }
+
+        @keyframes glowTitle {
+        0% { text-shadow: 0 0 0px var(--primary); }
+        100% { text-shadow: 0 0 20px rgba(0, 243, 255, 0.5); }
+        }
+
+        .search-container {
+            position: relative;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        #faqSearch {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            padding: 15px 25px;
+            border-radius: 50px;
+            color: white;
+            font-size: 1.1rem;
+            outline: none;
+            transition: 0.3s;
+            text-align: center;
+        }
+
+        #faqSearch:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.2);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        /* FAQ ITEMS */
+        .faq-grid { margin-top: 50px; }
+
+        .faq-item {
+            margin-bottom: 15px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: var(--card-bg);
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .faq-item:hover { transform: scale(1.01); border-color: rgba(0, 243, 255, 0.3); }
+
+        summary {
+            padding: 25px;
+            list-style: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            font-weight: 500;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        summary::after {
+            content: '>';
+            color: var(--primary);
+            transition: 0.3s;
+            font-family: monospace;
+        }
+
+        details[open] summary::after { transform: rotate(90deg); color: var(--accent); }
+
+        .answer {
+            padding: 0 25px 25px 25px;
+            color: #888;
+            font-size: 1rem;
+            line-height: 1.6;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        strong { color: var(--primary); }
+
+        /* Hide items when searching */
+        .hidden { display: none; }
+
+        .no-results {
+            text-align: center;
+            color: var(--accent);
+            margin-top: 30px;
+            display: none;
+        }
+                /* Animation d'entrée pour les éléments */
+        @keyframes revealPage {
+            from { 
+                opacity: 0; 
+                transform: translateY(30px); 
+                filter: blur(10px);
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+                filter: blur(0);
+            }
+        }
+
+        /* On applique l'animation à l'en-tête et aux items */
+        .faq-header, .faq-item {
+            opacity: 0; /* Invisible au départ */
+            animation: revealPage 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+
+        /* Délais progressifs pour un effet de cascade (Stagger effect) */
+        .faq-item:nth-child(1) { animation-delay: 0.1s; }
+        .faq-item:nth-child(2) { animation-delay: 0.15s; }
+        .faq-item:nth-child(3) { animation-delay: 0.2s; }
+        .faq-item:nth-child(4) { animation-delay: 0.25s; }
+        .faq-item:nth-child(5) { animation-delay: 0.3s; }
+        /* Les suivants suivront avec un délai de base ou tu peux continuer la liste */
+        .faq-item:nth-child(n+6) { animation-delay: 0.4s; }
+    </style>
+</head>
+<body>
+
+    <div class="faq-wrapper">
+        <div class="faq-header">
+            <h1>KNOWLEDGE BASE</h1>
+            <div class="search-container">
+                <input type="text" id="faqSearch" placeholder="SEARCH FOR A TOPIC (e.g. 'Cloudflare', 'Payment', 'API')..." onkeyup="filterFAQ()">
+            </div>
+        </div>
+
+        <div id="noResults" class="no-results">NO TOPICS MATCHING YOUR SEARCH SORRY.</div>
+
+        <div class="faq-grid" id="faqGrid">
+            <details class="faq-item">
+                <summary>What makes ParaStress the industry leader?</summary>
+                <div class="answer">Our infrastructure utilizes <strong>proprietary military-grade hardware</strong> and a private pool of over 950 high-performance nodes, ensuring consistent high Gbps outpput where others fail.</div>
+            </details>
+
+            <details class="faq-item">
+                <summary>How can I test the power before purchasing?</summary>
+                <div class="answer">We offer a <strong>1 Week Free Trial</strong>. Generate your unique key on the Demo page and activate it via the terminal with <code>!login</code>. No credit card required for trial.</div>
+            </details>
+
+            <details class="faq-item">
+                <summary>Can I bypass advanced Layer 7 protections?</summary>
+                <div class="answer">Yes. Our <strong>HTTP-PRIME</strong> and <strong>JS-BYPASS</strong> methods are specifically engineered to defeat Cloudflare UAM, Akamai, and DDoS-Guard challenges by mimicking real browser fingerprints.</div>
+            </details>
+
+            <details class="faq-item">
+                <summary>Do you support Layer 4 Game Server bypass?</summary>
+                <div class="answer">Absolutely. We feature specialized vectors for <strong>OVH-Game, FiveM (SLRP), and NFO</strong>, targeting specific service vulnerabilities rather than just raw volume.</div>
+            </details>
+
+            <details class="faq-item">
+                <summary>What payment methods do you accept?</summary>
+                <div class="answer">To ensure 100% privacy, we prioritize <strong>Cryptocurrencies (LTC, BTC, ETH, SOL)</strong>. Automated instant activation is available for all crypto payments.</div>
+            </details>
+
+            <details class="faq-item">
+                <summary>What are "Concurrent Attacks"?</summary>
+                <div class="answer">Concurrents represent the number of <strong>simultaneous attack slots</strong> available. With 2 concurrents, you can flood two different targets at the same time.</div>
+            </details>
+
+            <details class="faq-item">
+                <summary>Is my data and target history safe?</summary>
+                <div class="answer">We operate on a <strong>Strict Zero-Log Policy</strong>. Your attack history is wiped every 24 hours, and your IP is never stored in our backend database.</div>
+            </details>
+
+            <details class="faq-item">
+                <summary>Where are your attack nodes located?</summary>
+                <div class="answer">Our nodes are strategically distributed across <strong>Bulletproof datacenters</strong> in offshore jurisdictions to ensure maximum uptime and zero takedown risk.</div>
+            </details>
+
+            <details class="faq-item">
+                <summary>Why is the target still online?</summary>
+                <div class="answer">Check the <strong>!explain</strong> command. Some targets require specific Layer 7 headers. Ensure you aren't using UDP methods against a protected Web Server.</div>
+            </details>
+
+            <details class="faq-item">
+                <summary>How do I upgrade my current plan?</summary>
+                <div class="answer">Simply purchase a new plan on the <strong>ACCESS</strong> page. Your remaining days will be automatically converted and added to the new tier.</div>
+            </details>
+
+            <details class="faq-item">
+                <summary>Do you offer API access for resellers?</summary>
+                <div class="answer">Yes. Users with <strong>Enterprise Plans</strong> gain full REST API access to integrate our power into their own custom dashboards.</div>
+            </details>
+
+            <details class="faq-item">
+                <summary>How long does a boot session last?</summary>
+                <div class="answer">Boot times range from <strong>300s (Trial)</strong> up to <strong>7200s (Enterprise)</strong> per request, depending on your subscription level.</div>
+            </details>
+
+            <details class="faq-item">
+                <summary>Can I share my account?</summary>
+                <div class="answer">Accounts are <strong>HWID-Locked</strong>. Sharing will result in an automatic system ban to protect our network resources.</div>
+            </details>
+
+            <details class="faq-item">
+                <summary>What is the 'Stop' command?</summary>
+                <div class="answer">You can terminate any active attack instantly using the <code>!stop [ID]</code> command in the terminal.</div>
+            </details>
+
+            <details class="faq-item">
+                <summary>Need further assistance?</summary>
+                <div class="answer">Join our <strong>Official Discord</strong>. Our elite support team is available 24/7 to help you optimize your attack vectors.</div>
+            </details>
+        </div>
+    </div>
+
+    <script>
+        function filterFAQ() {
+            let input = document.getElementById('faqSearch').value.toLowerCase();
+            let items = document.getElementsByClassName('faq-item');
+            let grid = document.getElementById('faqGrid');
+            let noRes = document.getElementById('noResults');
+            let visibleCount = 0;
+
+            for (let i = 0; i < items.length; i++) {
+                let text = items[i].innerText.toLowerCase();
+                if (text.includes(input)) {
+                    items[i].classList.remove('hidden');
+                    visibleCount++;
+                } else {
+                    items[i].classList.add('hidden');
+                }
+            }
+
+            noRes.style.display = visibleCount === 0 ? 'block' : 'none';
+        }
+    </script>
+</body>
+</html>
